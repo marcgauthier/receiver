@@ -18,7 +18,7 @@ Format that is required to be respected by the network monitoring tool.
 package receiver
 
 import (
-	"github.com/antigloss/go/logger"
+	"github.com/marcgauthier/pronto"
 	"net"
 	"strconv"
 )
@@ -35,7 +35,7 @@ returned and must be called with the go prefix.
 */
 func Start(listenIP string, listenPort, queueSize int, recvfunc RecvFunc) {
 
-	logger.Info("Starting the receiver service listening for UDP on " + listenIP + ":" + strconv.Itoa(listenPort))
+	pronto.Info("Starting the receiver service listening for UDP on " + listenIP + ":" + strconv.Itoa(listenPort))
 
 	/* Open UDP Socket and start listening.
 	 */
@@ -46,7 +46,7 @@ func Start(listenIP string, listenPort, queueSize int, recvfunc RecvFunc) {
 
 	ServerConn, err := net.ListenUDP("udp", &addr)
 	if err != nil {
-		logger.Error(err.Error())
+		pronto.Error(err.Error())
 		return
 	}
 
@@ -74,7 +74,7 @@ func processingQueue(connection *net.UDPConn, recvfunc RecvFunc) {
 		// read UDP from the socket.
 		n, _, err = connection.ReadFromUDP(buf)
 		if err != nil {
-			logger.Error(err.Error())
+			pronto.Error(err.Error())
 			continue
 		}
 
